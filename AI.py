@@ -383,7 +383,7 @@ class AI(object):
 				if lower >= upper:
 					break
 		# reach the max_depth
-		if depth == self.max_depth and best_strat != None:
+		if depth == self.max_depth:
 			self.best_strat = best_strat
 
 		# return the score

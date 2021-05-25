@@ -12,7 +12,7 @@ class Gui_helper(tk.Canvas):
 		self.Board = Board(size)
 		self.AI = AI(size)
 		self.AI.board = self.Board.get_board()
-		self.turn = 2
+		self.player = 2
 		self.undo = False
 		self.depth = 2
 		self.prev_exist = False
@@ -31,13 +31,10 @@ class Gui_helper(tk.Canvas):
 			start_pixel_y = (0 + 1) * 30
 			end_pixel_y = self.size * 30
 			self.create_line(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y)
-
-		# 【size] lines
-		for j in range(self.size):
 			start_pixel_x = (0 + 1) * 30
-			start_pixel_y = (j + 1) * 30
+			start_pixel_y = (i + 1) * 30
 			end_pixel_x = self.size * 30
-			end_pixel_y = (j + 1) * 30
+			end_pixel_y = (i + 1) * 30
 			self.create_line(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y)
 
 		# stars 
@@ -59,7 +56,6 @@ class Gui_helper(tk.Canvas):
 		end_pixel_x = (row + 1) * 30 + 2
 		start_pixel_y = (col + 1) * 30 - 2
 		end_pixel_y = (col + 1) * 30 + 2
-		
 		self.create_oval(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y, fill = 'black')
 
 
@@ -85,11 +81,11 @@ class Gui_helper(tk.Canvas):
 		end_pixel_x = (row + 1) * 30 + loc6
 		end_pixel_y = (col + 1) * 30 + loc6
 		
-		if self.turn == 1:
+		if self.player == 1:
 			self.create_oval(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y, fill='black')
 			self.create_oval(outer_start_x, outer_start_y, outer_end_x, outer_end_y, fill='white')
 			self.create_oval(inner_start_x, inner_start_y, inner_end_x, inner_end_y, fill='black')
-		elif self.turn == 2:
+		elif self.player == 2:
 			self.create_oval(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y, fill='white')
 			self.create_oval(outer_start_x, outer_start_y, outer_end_x, outer_end_y, fill='black')
 			self.create_oval(inner_start_x, inner_start_y, inner_end_x, inner_end_y, fill='white')
@@ -107,9 +103,9 @@ class Gui_helper(tk.Canvas):
 		end_pixel_x = (row + 1) * 30 + loc6
 		end_pixel_y = (col + 1) * 30 + loc6
 		
-		if self.turn == 1:
+		if self.player == 1:
 			self.create_oval(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y, fill='white')
-		elif self.turn == 2:
+		elif self.player == 2:
 			self.create_oval(start_pixel_x, start_pixel_y, end_pixel_x, end_pixel_y, fill='black')
 
 
@@ -119,7 +115,7 @@ class Gui_helper(tk.Canvas):
 		"""
 		while True:
 			print('Your turn!!\n')
-			self.turn = 1
+			self.player = 1
 			invalid = True
 			# check for the nearest position where the user click
 			for i in range(self.size):
@@ -165,9 +161,9 @@ class Gui_helper(tk.Canvas):
 			return 0
 		
 		# AI's turn
-		self.turn = 2
+		self.player = 2
 		print('AI needs some time...')
-		row, col = self.AI.minimax(self.turn, self.depth)
+		row, col = self.AI.minimax(self.player, self.depth)
 		coord = '%s%s'%(chr(ord('A') + row), chr(ord('A') + col))
 		print('AI moves to {}\n'.format(coord))
 		self.Board.get_board()[row][col] = 2
